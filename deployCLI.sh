@@ -7,7 +7,6 @@ resourceGroupLocation="eastus2"
 vmName="cliVM"
 vmSize="Standard_D1_v2"
 
-# Login to the service
 #login to azure using your credentials
 az account show 1> /dev/null
 
