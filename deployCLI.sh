@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# parameters
+# parameters (vmSize not used)
 
 resourceGroupName="gab2017CLI"
 resourceGroupLocation="eastus2"
