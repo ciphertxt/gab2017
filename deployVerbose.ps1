@@ -1,4 +1,5 @@
-﻿Import-Module AzureRM -EA 0
+﻿# import AzureRM module
+Import-Module AzureRM -EA 0
 
 Login-AzureRmAccount
 
