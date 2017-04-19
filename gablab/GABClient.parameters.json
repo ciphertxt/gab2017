@@ -15,13 +15,13 @@
       "value": "My CompanyName"
     },
     "CountryCode": {
-      "value": "ES"
+      "value": "US"
     },
     "LabKeyCode": {
-      "value": "XXX-YYY-ZZZ"
+      "value": "XGP-KZN-CKT"
     },
 	  "VirtualMachinesSku": {
-	    "value": "Standard_A1"
+	    "value": "Standard_D1_v2"
 	  },
 	  "InstanceCount": {
 	    "value": 2

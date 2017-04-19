@@ -61,20 +61,23 @@ function CreateServicePrincipal([System.Security.Cryptography.X509Certificates.X
     $KeyCredential.CertValue  = $keyValue
 
     # Use key credentials and create an Azure AD application
+    Write-Host "Creating Azure AD Application"
     $Application = New-AzureRmADApplication -DisplayName $ApplicationDisplayName -HomePage ("http://" + $applicationDisplayName) -IdentifierUris ("http://" + $KeyId) -KeyCredentials $KeyCredential
     $ServicePrincipal = New-AzureRMADServicePrincipal -ApplicationId $Application.ApplicationId
     $GetServicePrincipal = Get-AzureRmADServicePrincipal -ObjectId $ServicePrincipal.Id
 
     # Sleep here for a few seconds to allow the service principal application to become active (ordinarily takes a few seconds)
-    Sleep -s 15
+    Write-Host "Sleeping for 30 seconds while application comes online..."
+    Start-Sleep -s 30
     $NewRole = New-AzureRMRoleAssignment -RoleDefinitionName Contributor -ServicePrincipalName $Application.ApplicationId -ErrorAction SilentlyContinue
     $Retries = 0;
-    While ($NewRole -eq $null -and $Retries -le 12)
+    While ($NewRole -eq $null -and $Retries -le 30)
     {
-    Sleep -s 10
-    New-AzureRMRoleAssignment -RoleDefinitionName Contributor -ServicePrincipalName $Application.ApplicationId | Write-Verbose -ErrorAction SilentlyContinue
-    $NewRole = Get-AzureRMRoleAssignment -ServicePrincipalName $Application.ApplicationId -ErrorAction SilentlyContinue
-    $Retries++;
+        Write-Host "Trying to add role assignment... ($Retries)"
+        Start-Sleep -s 10
+        New-AzureRMRoleAssignment -RoleDefinitionName Contributor -ServicePrincipalName $Application.ApplicationId | Write-Verbose -ErrorAction SilentlyContinue
+        $NewRole = Get-AzureRMRoleAssignment -ServicePrincipalName $Application.ApplicationId -ErrorAction SilentlyContinue
+        $Retries++;
     }
     return $Application.ApplicationId.ToString();
 }
